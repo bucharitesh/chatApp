@@ -1,14 +1,13 @@
-import '../styles/globals.css';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth, db } from '../firebaseConfig';
-import Loading from '../components/Loading';
+import { auth, db } from './firebaseConfig';
+import Loading from './components/Loading';
 import { useEffect } from 'react';
 import firebase from 'firebase/app';
-import Login from '../components/Login/index';
-import Profile from '../components/Profile';
+import Login from './components/Login';
+import Profile from './components/Profile';
+import Home from './pages/Home';
 
-function MyApp({ Component, pageProps }) {
-
+function App() {
   const [user, loading] = useAuthState(auth);
 
   useEffect(() => {
@@ -30,8 +29,7 @@ function MyApp({ Component, pageProps }) {
 
   if (user && !user.photoURL && !user.name) return <Profile user={user}/>;
 
-  return <Component {...pageProps} />;
-
+  return <Home/>;
 }
 
-export default MyApp
+export default App;

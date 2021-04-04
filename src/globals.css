@@ -15,7 +15,7 @@ a {
   box-sizing: border-box;
 }
 
-#__next {
+#root {
   background-color: #f0f0f0;
   display: flex;
   justify-content: center;

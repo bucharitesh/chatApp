@@ -4,7 +4,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth, db } from '../../firebaseConfig';
 import { useCollection } from 'react-firebase-hooks/firestore';
 
-function chatListItems({onClick, active, id, users, isOnline}) {
+function ChatListItems({onClick, active, id, users, isOnline}) {
 
   const [user] = useAuthState(auth);
 
@@ -38,4 +38,4 @@ function chatListItems({onClick, active, id, users, isOnline}) {
   )
 }
 
-export default chatListItems
+export default ChatListItems

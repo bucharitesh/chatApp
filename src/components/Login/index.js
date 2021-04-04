@@ -1,7 +1,5 @@
-import Head from 'next/head';
 import styled from 'styled-components';
-import { auth } from "../../firebaseConfig";
-import countriesList from "./countries";
+import CountriesList from "./Countries";
 import firebase from 'firebase/app';
 import { useEffect, useState } from 'react';
 import NumericInput from './NumericInput';
@@ -79,7 +77,7 @@ function Login(props) {
                 className="phone"
             >
                 {
-                    countriesList.map(e => {
+                    CountriesList.map(e => {
                         return (
                             <option className="select" value={e.dial_code}>{e.name} ({e.dial_code})</option>
                         )
@@ -105,9 +103,9 @@ function Login(props) {
 
     return (
         <Container>
-            <Head>
+            {/* <Head>
                 <title>Login</title>
-            </Head>
+            </Head> */}
 
             {mod == "sendcode" ? sendCodeView() : verifyCodeView()}
         </Container>

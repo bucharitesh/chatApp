@@ -6,7 +6,6 @@ import Avatar from "../Avatar";
 import styled from 'styled-components';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth, db } from '../../firebaseConfig';
-import { useCollection } from 'react-firebase-hooks/firestore';
 
 const useStyles = makeStyles((theme) => ({
     modal: {
@@ -59,8 +58,10 @@ function NewChat({open, close, chatlist, chatsSnapshot}) {
                       e.preventDefault();
                       db.collection('chats').add({
                         users: [user.phoneNumber, chat.id]
-                      });
-                      close();
+                      }).then((docRef) => {
+                        db.collection('messages').doc(docRef.id).set({});
+                    });
+                      close()
                     }    
                     }>
                     <Avatar image={chat.data().photoURL}/>

@@ -1,4 +1,3 @@
-import Head from 'next/head'
 import Sidebar from '../components/Sidebar/'
 import styled from 'styled-components';
 import Nav from '../components/Nav/Nav';
@@ -7,7 +6,7 @@ import ChatWindow from '../components/ChatWindow/';
 
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '../firebaseConfig';
-import {useState } from 'react';
+import { useState } from 'react';
 
 export default function Home() {
 
@@ -27,10 +26,10 @@ export default function Home() {
 
   return (
     <div className="__main">
-      <Head>
+      {/* <Head>
         <title>Create Next App</title>
         <link rel="icon" href="/favicon.ico" />
-      </Head>
+      </Head> */}
 
       <Nav user={user}/>
       

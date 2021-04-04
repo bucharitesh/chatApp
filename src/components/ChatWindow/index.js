@@ -1,4 +1,3 @@
-import Head from 'next/head'
 import { db } from '../../firebaseConfig';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import styled from 'styled-components';
@@ -79,9 +78,9 @@ function ChatWindow({data, user}) {
 
     return (
             <Container>
-             <Head>
+             {/* <Head>
                 <title>Chat with {userSnapshot?.data().name}</title>
-            </Head>
+            </Head> */}
 
             {/* Chat Header */}
             <ChatHeader>
@@ -116,7 +115,7 @@ function ChatWindow({data, user}) {
 
             {/* Chat Body */}
             <ChatBody ref={body}>
-                    {messagesSnapshot?.data().messages.map((item, key) => {
+                    {messagesSnapshot?.data().messages == null ? "" : (messagesSnapshot?.data().messages.map((item, key) => {
                     return (
                         <ChatItem
                         key={key}
@@ -124,7 +123,7 @@ function ChatWindow({data, user}) {
                         data={item}
                         />
                     );
-                    })}
+                    }))}
             </ChatBody>
 
 
@@ -217,7 +216,7 @@ const Settings = styled.div`
 
 const ChatBody = styled.div`
     margin-top: 5px;
-    height: 100%;
+    height: 70vh;
     width: 100%;
     overflow: auto;
 `;

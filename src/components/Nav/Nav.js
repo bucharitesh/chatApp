@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import Image from 'next/image';
 import Avatar from '../Avatar';
 
 function Nav({user}) {
@@ -7,7 +6,7 @@ function Nav({user}) {
 
   return (
     <Navbar>   
-        <Image src="/logo2.svg" width="70px" height="70px"/>
+        {/* <img src="" width="70px" height="70px"/> */}
         <div className="nav__blocks"></div>
         <div className="nav__blocks">
           <Avatar image={user.photoURL}/>

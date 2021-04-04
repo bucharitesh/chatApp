@@ -25,7 +25,6 @@ function Sidebar({user, handleOpenChat, handleCloseChat, setActiveChat}) {
 
     return (
         <Container>
-        
         <button className="btn" onClick={handleOpen}>
           <i className="fa fa-plus"></i>
           <span>New conversation</span>
