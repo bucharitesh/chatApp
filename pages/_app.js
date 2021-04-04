@@ -4,8 +4,8 @@ import { auth, db } from '../firebaseConfig';
 import Loading from '../components/Loading';
 import { useEffect } from 'react';
 import firebase from 'firebase/app';
-import Login from '../components/Login/';
-import Profile from '../components/profile';
+import Login from '../components/Login/index';
+import Profile from '../components/Profile';
 
 function MyApp({ Component, pageProps }) {
 
