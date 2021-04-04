@@ -24,7 +24,6 @@ function ChatWindow({data, user}) {
     const Messagesref = db.collection("messages").doc(data);
     const [messagesSnapshot] = useCollection(Messagesref);
 
-
     const body = useRef();
 
     let recognition = null;
@@ -35,7 +34,7 @@ function ChatWindow({data, user}) {
 
     const [text, setText] = useState('');
     const [listening, setListening] = useState(false);
-    let [chatList, setChatList] = useState([]);
+    const [messageType, setMessageType] = useState(null)
 
 
     const handleVoiceMessage = () => {
@@ -51,6 +50,7 @@ function ChatWindow({data, user}) {
             }
             recognition.start();
         }
+        setMessageType("audio")
     }
 
     const handleInputKeyUp = (e) => {
@@ -60,13 +60,24 @@ function ChatWindow({data, user}) {
     }
 
     const handleSendMessage = () => {
-        if(text !== '') {
+        if(messageType == "text") {
             Messagesref.update({
                 messages: firebase.firestore.FieldValue.arrayUnion(
                     {
                          author: user.phoneNumber,
                          message: text,
-                         messageType: "text",
+                         messageType: messageType,
+                         messageTime: firebase.firestore.Timestamp.now()
+                    })
+                });
+            setText('');
+        }
+        if(messageType == "audio") {
+            Messagesref.update({
+                messages: firebase.firestore.FieldValue.arrayUnion(
+                    {
+                         author: user.phoneNumber,
+                         messageType: messageType,
                          messageTime: firebase.firestore.Timestamp.now()
                     })
                 });
@@ -139,7 +150,7 @@ function ChatWindow({data, user}) {
                     <input
                     type="text"
                     placeholder="Type a message here"
-                    onChange={e => setText(e.target.value)}
+                    onChange={e => { setText(e.target.value); setMessageType("text")}}
                     value={text}
                     onKeyUp={handleInputKeyUp}
                     />
