@@ -1,9 +1,11 @@
 import styled from 'styled-components';
 
+import { ReactComponent as Logo } from "../../assets/Logo.svg"
+
 function chatInro() {
     return (
         <Container>
-            {/* <Logo height="350px" width="350px"/> */}
+            <Logo height="300px" width="300px"/>
             <HeaderText>Welcome to Chai Pe Charcha</HeaderText>
             <SubText>We Believe in Security and Reliability</SubText>
             <Footer>

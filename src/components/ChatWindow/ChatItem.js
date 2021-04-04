@@ -7,7 +7,14 @@ function ChatItem({user,data}) {
         className={`chat__item ${user.phoneNumber === data.author ? "user" : "other"}`}
       >
         <div className="chat__item__content">
-          <div className="chat__msg">{data.message}</div>
+          {data.messageType == "audio" && 
+            <audio controls>
+              <source src={data.audioURL} type="audio/mpeg" />
+            </audio>
+          }
+
+          {data.messageType == "text" && <div className="chat__msg">{data.message}</div>}
+          
           <div className="chat__meta">
             <span>{
                     data.messageTime ? (

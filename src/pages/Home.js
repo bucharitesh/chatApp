@@ -58,8 +58,8 @@ const Container = styled.div`
   padding: 15px 20px;
   display: flex;
   animation: 250ms cubic-bezier(0.1, 0.82, 0.25, 1) 0ms 1 normal none running windowAnim;
-  
-    @keyframes windowAnim{
+
+  @keyframes windowAnim{
         0%{
             opacity:0;transform:scale(1.3)
         }

@@ -1,15 +1,21 @@
 import styled from 'styled-components';
 import Avatar from '../Avatar';
+import firebase from 'firebase/app';
+
+import { ReactComponent as Logo } from "../../assets/Logo.svg"
 
 function Nav({user}) {
-  console.log(user);
 
+  const Signout =() => {
+    firebase.auth().signOut()
+  }
+  
   return (
     <Navbar>   
-        {/* <img src="" width="70px" height="70px"/> */}
+        <Logo width="50px" height="50px"/>
         <div className="nav__blocks"></div>
         <div className="nav__blocks">
-          <Avatar image={user.photoURL}/>
+          <Avatar image={user.photoURL} onClick={Signout}/>
         </div>   
     </Navbar>
   )

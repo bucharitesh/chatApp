@@ -10,6 +10,7 @@ import ChatItem from './ChatItem';
 import firebase from 'firebase/app';
 import { FiSend, FiPlus, FiMic, FiSettings, FiSmile} from "react-icons/fi";
 
+import { ReactMic } from 'react-mic';
 
 function ChatWindow({data, user}) {
 
@@ -26,32 +27,7 @@ function ChatWindow({data, user}) {
 
     const body = useRef();
 
-    let recognition = null;
-    let SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if(SpeechRecognition !== undefined) {
-        recognition = new SpeechRecognition();
-    }
-
     const [text, setText] = useState('');
-    const [listening, setListening] = useState(false);
-    const [messageType, setMessageType] = useState(null)
-
-
-    const handleVoiceMessage = () => {
-        if(recognition !== null) {
-            recognition.onstart = () => {
-                setListening(true);
-            }
-            recognition.onend = () => {
-                setListening(false);
-            }
-            recognition.onresult = (e) => {
-                setText(e.results[0][0].transcript);
-            }
-            recognition.start();
-        }
-        setMessageType("audio")
-    }
 
     const handleInputKeyUp = (e) => {
         if(e.keyCode == 13) {
@@ -60,32 +36,67 @@ function ChatWindow({data, user}) {
     }
 
     const handleSendMessage = () => {
-        if(messageType == "text") {
+        if(text !== "") {
             Messagesref.update({
                 messages: firebase.firestore.FieldValue.arrayUnion(
                     {
                          author: user.phoneNumber,
                          message: text,
-                         messageType: messageType,
+                         messageType: "text",
                          messageTime: firebase.firestore.Timestamp.now()
                     })
                 });
             setText('');
-        }
-        if(messageType == "audio") {
-            Messagesref.update({
-                messages: firebase.firestore.FieldValue.arrayUnion(
-                    {
-                         author: user.phoneNumber,
-                         messageType: messageType,
-                         messageTime: firebase.firestore.Timestamp.now()
-                    })
-                });
-            setText('');
+            console.log("text sent")
         }
     }
 
+    const [record, setRecord] = useState(false);
 
+    var getFileBlob = function (url, cb) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", url);
+        xhr.responseType = "blob";
+        xhr.addEventListener('load', function() {
+          cb(xhr.response);
+        });
+        xhr.send();
+    };
+
+    function startRecording(e) {
+        e.preventDefault();
+        setRecord(true);
+    }
+    
+    function stopRecording(e) {
+        e.preventDefault();
+        setRecord(false);
+    }
+
+    function onData(recordedBlob) {
+        console.log('chunk of real-time data is: ', recordedBlob);    
+    }
+
+    var onStop = (recordedBlob) => {
+            getFileBlob(recordedBlob.blobURL, blob =>{
+            firebase.storage().ref(`${data}/${~~(Date.now() / 1000)}`).put(blob)
+            .then(function(snapshot) {
+                snapshot.ref.getDownloadURL().then(
+                    function(downloadURL) {
+                        Messagesref.update({
+                            messages: firebase.firestore.FieldValue.arrayUnion(
+                                {
+                                     author: user.phoneNumber,
+                                     messageType: "audio",
+                                     audioURL: downloadURL,
+                                     messageTime: firebase.firestore.Timestamp.now()
+                                })
+                        });   
+                });
+            })
+        })
+        handleSendMessage();  
+    }
 
     return (
             <Container>
@@ -150,7 +161,7 @@ function ChatWindow({data, user}) {
                     <input
                     type="text"
                     placeholder="Type a message here"
-                    onChange={e => { setText(e.target.value); setMessageType("text")}}
+                    onChange={e => setText(e.target.value)}
                     value={text}
                     onKeyUp={handleInputKeyUp}
                     />
@@ -160,15 +171,36 @@ function ChatWindow({data, user}) {
                             <button className="btnSendMsg" id="sendMsgBtn" onClick={handleSendMessage}>
                                 <FiSend size="20px"/>
                             </button>
-                        ) : (
-                            <button className="btnMic" style={{backgroundColor: listening ? '#4462ff' : '', color: listening ? '#fff' : '#4462ff'}} onClick={handleVoiceMessage}>
-                                <FiMic size="20px" />
-                            </button>
-                        )
+                        ) : <>
+                        <SoundWave
+                                record={record}
+                                onStop={onStop}
+                                onData={onData}
+                                visualSetting="frequencyBars"
+                                strokeColor="#4462ff"
+                                backgroundColor="#fff"
+                                echoCancellation="true"
+                                channelCount="2"
+                            /> 
+                            {
+                                record ? (
+                                    <button className="btnMic" style={{backgroundColor: '#4462ff', color :'#fff'}} onClick={stopRecording}>
+                                        <FiMic size="20px" />
+                                    </button>
+                                    
+                                ) : ( 
+                                    
+                                    <button className="btnMic" style={{color:'#4462ff'}} onClick={startRecording}>
+                                        <FiMic size="20px" />
+                                    </button>
+                                )
+                            }
+                        </>
                     }
                     
                 </div>
             </ChatFooter>
+            
         </Container>
     )
 }
@@ -229,7 +261,7 @@ const ChatBody = styled.div`
     margin-top: 5px;
     height: 70vh;
     width: 100%;
-    overflow: auto;
+    overflow-x: hidden;
 `;
 
 const ChatFooter = styled.div`
@@ -285,4 +317,13 @@ const ChatFooter = styled.div`
   .emoji {
     margin-left: 8px;
   }
+`;
+
+const SoundWave = styled(ReactMic)`
+    position: absolute;
+    z-index: 999;
+    width: 70px;
+    height: 20px;
+    right: 50px;
+    bottom: 10px;
 `;
