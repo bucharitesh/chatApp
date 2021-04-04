@@ -6,8 +6,8 @@ import ChatInro from '../components/ChatInro/';
 import ChatWindow from '../components/ChatWindow/';
 
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth, db } from '../firebaseConfig';
-import {useState, useEffect} from 'react';
+import { auth } from '../firebaseConfig';
+import {useState } from 'react';
 
 export default function Home() {
 
