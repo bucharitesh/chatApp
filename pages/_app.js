@@ -5,7 +5,7 @@ import Loading from '../components/Loading';
 import { useEffect } from 'react';
 import firebase from 'firebase/app';
 import Login from '../components/Login/';
-import Profile from '../components/Profile';
+import Profile from '../components/profile';
 
 function MyApp({ Component, pageProps }) {
 
