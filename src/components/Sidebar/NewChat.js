@@ -54,6 +54,8 @@ function NewChat({open, close, chatlist, chatsSnapshot}) {
 
             {chatlist?.docs.map((chat) => (      
                   chat.id !== user.phoneNumber && !chatAlreadyExists(chat.id) ? (
+                    
+                  chat.data().name && chat.data().photoURL &&
                     <ChatListItem key={chat.id} onClick={ (e) => {
                       e.preventDefault();
                       db.collection('chats').add({

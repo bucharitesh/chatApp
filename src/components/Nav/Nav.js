@@ -33,7 +33,10 @@ const Navbar = styled.div`
   img {
     display: block;
     cursor: pointer;
-    width: 40px;
+    object-fit: cover;
+    overflow: hidden;
+    border-radius: 50%;
+    width: 100%;
   }
 `;
 

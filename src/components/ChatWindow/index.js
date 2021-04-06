@@ -79,7 +79,7 @@ function ChatWindow({data, user}) {
 
     var onStop = (recordedBlob) => {
             getFileBlob(recordedBlob.blobURL, blob =>{
-            firebase.storage().ref(`${data}/${~~(Date.now() / 1000)}`).put(blob)
+            firebase.storage().ref(`chats/${data}/${~~(Date.now() / 1000)}`).put(blob)
             .then(function(snapshot) {
                 snapshot.ref.getDownloadURL().then(
                     function(downloadURL) {
@@ -95,7 +95,31 @@ function ChatWindow({data, user}) {
                 });
             })
         })
-        handleSendMessage();  
+    }
+
+
+    const sendImage = (e) => {
+        e.preventDefault();
+        const ref = firebase.storage().ref();
+        const file = e.target.files[0];
+        const metadata = {
+            contentType: file.type
+        };
+        const task = ref.child(`chats/${data}/${~~(Date.now() / 1000)}`).put(file, metadata);
+        task
+            .then(snapshot => snapshot.ref.getDownloadURL())
+            .then(url => {
+                Messagesref.update({
+                    messages: firebase.firestore.FieldValue.arrayUnion(
+                        {
+                             author: user.phoneNumber,
+                             messageType: "image",
+                             imageURL: url,
+                             messageTime: firebase.firestore.Timestamp.now()
+                        })
+                });   
+            })
+            .catch(console.error);
     }
 
     return (
@@ -152,9 +176,14 @@ function ChatWindow({data, user}) {
             {/* Chat Footer */}
             <ChatFooter>
                 <div className="sendNewMessage">
-                    <button className="addFiles">
-                        <FiPlus size="20px"/>
+                    <button>
+                        <input type="file" accept="image/*" name="image-upload" id="imageUpload" onChange={(e) => sendImage(e)}  />
+                        <label for="imageUpload">
+                            <FiPlus size="20px"/>
+                        </label>
                     </button>
+                    
+
                     <button className="emoji">
                         <FiSmile size="20px" />
                     </button>
@@ -294,6 +323,10 @@ const ChatFooter = styled.div`
     /* height: 100%; */
     justify-content: center;
     align-items: center;
+
+    input {
+        display: none;
+    }
 
   }
   .sendNewMessage button:hover {
