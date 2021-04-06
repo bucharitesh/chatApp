@@ -1,0 +1,99 @@
+.chat__item {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    margin-bottom: 8px;
+    transition: all 0.3s ease;
+    transform: scale(0);
+    transform-origin: right;
+    animation-name: showIn;
+    animation-duration: 150ms; /* or: Xms */
+    animation-iteration-count: 1;
+    animation-direction: normal; /* or: normal */
+    animation-timing-function: cubic-bezier(
+      0.88,
+      0.19,
+      0.37,
+      1.11
+    ); /* or: ease, ease-in, ease-in-out, linear, cubic-bezier(x1, y1, x2, y2) */
+    animation-fill-mode: both; /* or: backwards, both, none */
+    animation-delay: 0.2s; /* or: Xms */
+  }
+  @keyframes showIn {
+    0% {
+      transform: scale(0);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  
+  .chat__item__content {
+    background-color: #4462ff;
+    color: #fff;
+    padding: 6px 7px 13px 9px;
+    border-radius: 10px 10px 0 10px;
+    max-width: 500px;
+    min-width: 80px;
+  }
+  
+  .chat__item__content audio {
+    width: 200px;
+  }
+  
+  .chat__msg {
+    user-select: none;
+    position: relative;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+    padding-bottom: 5px;
+  
+  }
+  
+  .chat__msg img {
+    height: 250px;
+    width: auto;
+  }
+  
+  .chat__item.other {
+    flex-direction: row-reverse;
+    transform-origin: left;
+  }
+  .chat__item.other .chat__item__content {
+    background-color: #fff;
+    color: #000;
+    border-radius: 10px 10px 10px 0;
+    max-width: 50%;
+  }
+
+  .chat__item.other .chat__item__content .chat__meta span {
+    color: #d1d1d1;
+  }
+
+  .chatItemTime {
+    right: 7px;
+    bottom: 4px;
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+  }
+
+  .chatItemTime span {
+    font-size: 9px;
+    color: rgba(255, 255, 255, 0.5);
+    user-select: none;
+  }
+
+  .chat__item.other .chatItemTime {
+    left: 7px;
+    bottom: 4px;
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+  }
+
+  .chat__item.other .chatItemTime span {
+    font-size: 9px;
+    color: rgba(0, 0, 0, 0.5);
+    user-select: none;
+  }

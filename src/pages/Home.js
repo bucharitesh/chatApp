@@ -1,7 +1,7 @@
 import Sidebar from '../components/Sidebar/'
 import styled from 'styled-components';
 import Nav from '../components/Nav/Nav';
-import ChatInro from '../components/ChatInro/';
+import ChatIntro from '../components/ChatIntro/';
 import ChatWindow from '../components/ChatWindow/';
 
 import { useAuthState } from 'react-firebase-hooks/auth';
@@ -44,7 +44,7 @@ export default function Home() {
             <ChatWindow
               user={user}
               data={activeChat}
-            /> : <ChatInro/>}
+            /> : <ChatIntro/>}
       </Container>
     </div>
   )

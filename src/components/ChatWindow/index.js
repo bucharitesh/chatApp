@@ -254,11 +254,6 @@ const ChatHeader = styled.div`
     .current-chatting-user {
         display: flex;
         align-items: center;
-
-        img {
-            max-height: 50px;
-            height: 40px;
-        }
     }
 `;  
 
@@ -299,12 +294,13 @@ const ChatFooter = styled.div`
     bottom: 0;
 
     .sendNewMessage {
-    background-color: #fff;
-    display: flex;
-    justify-content: space-between;
-    padding: 10px;
-    border-radius: 8px;
-  }
+        background-color: #fff;
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+        border-radius: 8px;
+    }
+
   .sendNewMessage button {
     width: 36px;
     height: 36px;
@@ -323,9 +319,16 @@ const ChatFooter = styled.div`
     /* height: 100%; */
     justify-content: center;
     align-items: center;
+    position: relative;
 
     input {
-        display: none;
+        opacity: 0;
+        position: absolute;
+        width: 36px;
+        height: 36px;
+        z-index: 1000;
+        left: 15px;
+        cursor: pointer;
     }
 
   }
