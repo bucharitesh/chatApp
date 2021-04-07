@@ -33,8 +33,8 @@
     color: #fff;
     padding: 6px 7px 13px 9px;
     border-radius: 10px 10px 0 10px;
-    max-width: 500px;
-    min-width: 80px;
+    max-width: 400px;
+    min-width: 100px;
   }
   
   .chat__item__content audio {
@@ -51,8 +51,9 @@
   }
   
   .chat__msg img {
-    height: 250px;
+    height: 200px;
     width: auto;
+    max-width: 500px;
   }
   
   .chat__item.other {
@@ -63,7 +64,6 @@
     background-color: #fff;
     color: #000;
     border-radius: 10px 10px 10px 0;
-    max-width: 50%;
   }
 
   .chat__item.other .chat__item__content .chat__meta span {

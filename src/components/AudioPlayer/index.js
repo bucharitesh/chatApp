@@ -1,125 +1,77 @@
-import React from 'react'
+import styled from 'styled-components';
+import { useState, useRef } from 'react';
+import Slider from './Slider';
+import Controls from './Controls';
 
-function AudioPlayer() {
-    return (
-        <Audio>
-                <div class="_2rB2Y">
-                  <div class="Hei0U">
-                    <div class="GrwLb _2hsTo">
-                      <div class="E2qvM">
-                        <button class="_28Dfr">
-                          <BsPlayFill size="2em"/>
-                        </button>
-                      </div>
-                      <div class="_23Fho">
-                        <span aria-label="Voice message"></span>
-                        <div class="_2O_ZT">0:05</div><div class="sQ3Ia">
-                          <span class="_3cCXU" style={{width: 0}}></span>
-                          <input dir="ltr" type="range" class="_3TWTE" min="0" max="100" value="0" />
-                            <audio autoplay preload="auto">
-                              <source src={data.audioURL} type="audio/mpeg" />
-                            </audio>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="_23QsC">
-                    <div class="_1S-g9">
-                      <div class="_2myan _1vuxa vDSDs">
-                        <span data-testid="ptt-status" data-icon="ptt-status" class="">
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-        </Audio>
-    )
+function AudioPlayer({audioChat}) {
+
+  const [percentage, setPercentage] = useState(0)
+  const [isPlaying, setIsPlaying] = useState(false)
+  const [duration, setDuration] = useState(0)
+  const [currentTime, setCurrentTime] = useState(0)
+
+  const audioRef = useRef()
+
+  const onChange = (e) => {
+    const audio = audioRef.current
+    audio.currentTime = (audio.duration / 100) * e.target.value
+    setPercentage(e.target.value)
+  }
+
+  const play = () => {
+    const audio = audioRef.current
+    audio.volume = 0.1
+
+    if (!isPlaying) {
+      setIsPlaying(true)
+      audio.play()
+    }
+
+    if (isPlaying) {
+      setIsPlaying(false)
+      audio.pause()
+    }
+  }
+
+  const getCurrDuration = (e) => {
+    const percent = ((e.currentTarget.currentTime / e.currentTarget.duration) * 100).toFixed(2)
+    const time = e.currentTarget.currentTime
+
+    setPercentage(+percent)
+    setCurrentTime(time.toFixed(2))
+  }
+
+  return (
+      <Audio>
+          <Slider percentage={percentage} onChange={onChange} />
+          <audio
+            ref={audioRef}
+            onTimeUpdate={getCurrDuration}
+            onLoadedData={(e) => {
+              setDuration(e.currentTarget.duration.toFixed(2))
+            }}
+            src={audioChat}
+          ></audio>
+          <Controls
+            play={play}
+            isPlaying={isPlaying}
+            duration={duration}
+            currentTime={currentTime}
+          />  
+      </Audio>
+  )
 }
 
 const Audio = styled.div`
-  padding: 6px;
-  box-sizing: border-box;
-  width: 236px;
-  max-width: 100%;
-
-  ._3MHVj ._2rB2Y {
-    flex-direction: row-reverse;
-}
-
-
-
-.GrwLb {
-    display: flex;
-    align-items: center;
-    direction: ltr;
-}
-
-._23Fho, .E2qvM {
-    position: relative;
-}
-.E2qvM {
-    display: block;
-    flex: none;
-    width: 34px;
-    height: 34px;
-    margin-top: -1px;
-    margin-right: 12px;
-}
-
-._28Dfr {   
-    width: 34px;
-    height: 34px;
-    background-color: inherit;
-    color: white;
-}
-
-._23Fho {
-    flex: 1;
-}
-._23Fho, .E2qvM {
-    position: relative;
-}
-
-._2O_ZT {
-    position: absolute;
-    bottom: -19px;
-    font-size: 11px;
-    line-height: 15px;
-    color: #fff;
-}
-
-._3TWTE {
-    box-sizing: border-box;
-    display: block;
-    height: 21px;
-    background-color: initial!important;
-    border: none;
-    outline: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-}
-
-._3TWTE, .sQ3Ia {
-    position: relative;
-    width: 100%;
-}
-
-.sQ3Ia {
-    top: -1px;
-}
-
-._3TWTE {
-    box-sizing: border-box;
-    display: block;
-    height: 21px;
-    background-color: initial!important;
-    border: none;
-    outline: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-}
+  width: 600px;
+  padding: 0 10px;
+  background-color: #272727;
+  padding: 30px 50px;
+  border-radius: 10px;
+  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.479);
 `;
 
 export default AudioPlayer
+
+
+

@@ -22,7 +22,7 @@ function Nav({user}) {
 }
 
 const Navbar = styled.div`
-  max-width: 100px;
+  max-width: 70px;
   display: flex;
   justify-content: space-between;
   flex-direction: column;

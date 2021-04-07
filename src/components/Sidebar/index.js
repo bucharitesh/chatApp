@@ -27,10 +27,10 @@ function Sidebar({user, setActiveChat}) {
 
     return (
         <Container>
-        <Button className="btn" onClick={handleOpen}>
-            <FiPlus size="40px"/>
-          <span>New conversation</span>
-        </Button>
+          <Button className="btn" onClick={handleOpen}>
+              <FiPlus size="30px"/>
+            <span>New conversation</span>
+          </Button>
 
         <NewChat
             chatlist={userSnapshot}
@@ -81,7 +81,7 @@ const Button = styled.button`
     border: none;
     outline: none;
     cursor: pointer;
-    width: 230px;
+    width: 180px;
     height: 47px;
     line-height: 47px;
     border-radius: 5px;
@@ -89,7 +89,7 @@ const Button = styled.button`
     display: flex;
     transition: all 0.3s ease-in-out;
     justify-content: space-between;
-    padding: 0px 20px;
+    padding: 0px 10px;
     font-weight: 600;
     background-color: #fff;
 
@@ -110,22 +110,23 @@ const Button = styled.button`
     }
 
     span {
-        flex: 0.8;
+        flex: 1;
         display: flex;
+        padding-left: 5px;
         justify-content: center;
         align-items: center;
     }
 
     svg {
         height: 100%;
-        padding-right: 10px;
+        padding-right: 5px;
         border-right: 3px solid #ebe7fb;
     }
 
 `;
 const Container = styled.div`
   border-right: 1px solid #ebe7fb;
-  padding: 0 20px 0 0px;
+  padding: 0 15px 0 0px;
   max-width: 250px;
 `;
 

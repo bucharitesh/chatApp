@@ -5,11 +5,10 @@ import { ReactComponent as Logo } from "../../assets/Logo.svg"
 function chatInro() {
     return (
         <Container>
-            <Logo height="300px" width="300px"/>
+            <Logo height="150px" width="150px"/>
             <HeaderText>Welcome to Chai Pe Charcha</HeaderText>
             <SubText>We Believe in Security and Reliability</SubText>
             <Footer>
-                <hr className="footerLine"/>
                 <div className="footerText">
                     <i className="fa fa-mobile"></i>
                     Mobile Version Coming Soon.
@@ -39,14 +38,14 @@ const Container = styled.div`
 `;
 
 const HeaderText = styled.p`
-    font-size: 36px;
+    font-size: 24px;
     font-weight: 300;
     margin-top: 38px;
     color: #262d31;
 `;
 
 const SubText = styled.p`
-    margin-top: 12px;
+    margin-top: 10px;
     font-size: 14px;
     line-height: 0px;
     color: #a6a8aa;
@@ -54,16 +53,10 @@ const SubText = styled.p`
 
 const Footer = styled.div`
     margin-top: 14px;
-
-    hr.footerLine {
-        color: rgba(130, 130, 130, 0.50);
-        width: 100%;
-    }
-
     .footerText {
         align-items: center;
         margin-top: 20px;
-        font-size: 14px;
+        font-size: 10px;
         line-height: 12px;
         color: #a6a8aa;
     }

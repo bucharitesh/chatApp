@@ -27,6 +27,14 @@ function ChatWindow({data, user}) {
 
     const body = useRef();
 
+    const endOfMessageRef = useRef(null);
+    const ScrolltoBottom = () => {
+        endOfMessageRef.current.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        })
+    }
+
     const [text, setText] = useState('');
 
     const handleInputKeyUp = (e) => {
@@ -47,8 +55,8 @@ function ChatWindow({data, user}) {
                     })
                 });
             setText('');
-            console.log("text sent")
         }
+        ScrolltoBottom();
     }
 
     const [record, setRecord] = useState(false);
@@ -62,6 +70,7 @@ function ChatWindow({data, user}) {
         });
         xhr.send();
     };
+
 
     function startRecording(e) {
         e.preventDefault();
@@ -78,25 +87,43 @@ function ChatWindow({data, user}) {
     }
 
     var onStop = (recordedBlob) => {
-            getFileBlob(recordedBlob.blobURL, blob =>{
-            firebase.storage().ref(`chats/${data}/${~~(Date.now() / 1000)}`).put(blob)
-            .then(function(snapshot) {
-                snapshot.ref.getDownloadURL().then(
-                    function(downloadURL) {
-                        Messagesref.update({
-                            messages: firebase.firestore.FieldValue.arrayUnion(
-                                {
-                                     author: user.phoneNumber,
-                                     messageType: "audio",
-                                     audioURL: downloadURL,
-                                     messageTime: firebase.firestore.Timestamp.now()
-                                })
-                        });   
-                });
-            })
+        getFileBlob(recordedBlob.blobURL, blob =>{
+        firebase.storage().ref(`${data}/${~~(Date.now() / 1000)}`).put(blob)
+        .then(function(snapshot) {
+            snapshot.ref.getDownloadURL().then(
+                function(downloadURL) {
+                    Messagesref.update({
+                        messages: firebase.firestore.FieldValue.arrayUnion(
+                            {
+                                 author: user.phoneNumber,
+                                 messageType: "audio",
+                                 audioURL: downloadURL,
+                                 messageTime: firebase.firestore.Timestamp.now()
+                            })
+                    });   
+            });
         })
-    }
+    })
+    ScrolltoBottom(); 
+}
 
+    const deleteChat = (e) => {
+        e.preventDefault();
+
+        db.collection("chats").doc(data).delete().then(() => {
+            console.log("Document successfully deleted!");
+        }).catch((error) => {
+            console.error("Error removing document: ", error);
+        });
+        db.collection("messages").doc(data).delete().then(() => {
+            console.log("Document successfully deleted!");
+        }).catch((error) => {
+            console.error("Error removing document: ", error);
+        });
+
+        console.log("deleted successfully")
+        window.location.reload()
+    }
 
     const sendImage = (e) => {
         e.preventDefault();
@@ -120,6 +147,7 @@ function ChatWindow({data, user}) {
                 });   
             })
             .catch(console.error);
+        ScrolltoBottom();
     }
 
     return (
@@ -152,7 +180,7 @@ function ChatWindow({data, user}) {
 
                 <div className="blocks">
                     <Settings>
-                    <button className="btn-nobg">
+                    <button className="btn-nobg" onClick={(e) => deleteChat(e)}>
                         <FiSettings size="20px" />
                     </button>
                     </Settings>
@@ -169,18 +197,17 @@ function ChatWindow({data, user}) {
                         data={item}
                         />
                     );
-                    }))}
+                    }))
+                    }
+                    <div ref={endOfMessageRef}/>
             </ChatBody>
-
 
             {/* Chat Footer */}
             <ChatFooter>
                 <div className="sendNewMessage">
                     <button>
-                        <input type="file" accept="image/*" name="image-upload" id="imageUpload" onChange={(e) => sendImage(e)}  />
-                        <label for="imageUpload">
-                            <FiPlus size="20px"/>
-                        </label>
+                        <input type="file" accept="image/*" name="image-upload" id="imageUpload" onChange={(e) => sendImage(e)}  />                    
+                        <FiPlus size="20px"/>
                     </button>
                     
 
@@ -200,7 +227,7 @@ function ChatWindow({data, user}) {
                             <button className="btnSendMsg" id="sendMsgBtn" onClick={handleSendMessage}>
                                 <FiSend size="20px"/>
                             </button>
-                        ) : <>
+                       ) : <>
                         <SoundWave
                                 record={record}
                                 onStop={onStop}
@@ -327,7 +354,6 @@ const ChatFooter = styled.div`
         width: 36px;
         height: 36px;
         z-index: 1000;
-        left: 15px;
         cursor: pointer;
     }
 

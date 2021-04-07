@@ -55,7 +55,7 @@ const Container = styled.div`
   flex-grow: 1;
   background-color: #f4f3f8;
   border-radius: 10px;
-  padding: 15px 20px;
+  padding: 15px;
   display: flex;
   animation: 250ms cubic-bezier(0.1, 0.82, 0.25, 1) 0ms 1 normal none running windowAnim;
 
