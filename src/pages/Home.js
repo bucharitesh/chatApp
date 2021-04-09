@@ -44,6 +44,7 @@ export default function Home() {
             <ChatWindow
               user={user}
               data={activeChat}
+              setActiveChat={setActiveChat}
             /> : <ChatIntro/>}
       </Container>
     </div>
