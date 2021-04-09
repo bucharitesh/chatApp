@@ -13,15 +13,6 @@ function Login(props) {
     const [phone, setPhone] = useState(null);
     const [verificationcode, setVerificationCode] = useState("");
     const [confirmationResult, setConfirmationResult] = useState(null);
-    
-    useEffect(()=>{
-        if(!window.recaptchaverifier){
-            window.recaptchaverifier = new firebase.auth.RecaptchaVerifier("__phonesigner__");
-            window.recaptchaverifier.render().then(wid => {
-                window.widgetID = wid;
-            });
-        }
-    });
 
     const signIn= () => {
         var appverifier = window.recaptchaverifier,
@@ -36,6 +27,22 @@ function Login(props) {
                 console.log(err);
         });
     }
+    
+    useEffect(()=>{
+        if(!window.recaptchaverifier){
+            window.recaptchaverifier = new firebase.auth.RecaptchaVerifier("__phonesigner__", {
+                'size': 'invisible',
+                'callback': (response) => {
+                  // reCAPTCHA solved, allow signInWithPhoneNumber.
+                  signIn()
+                }
+              });
+            window.recaptchaverifier.render().then(wid => {
+                window.widgetID = wid;
+            });
+        }
+    });
+    
 
     const verify =() => {
         confirmationResult.confirm(verificationcode)
