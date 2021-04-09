@@ -8,9 +8,48 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '../firebaseConfig';
 import { useState } from 'react';
 import { Helmet } from "react-helmet";
+import firebase from 'firebase/app'
 
 export default function Home() {
   const [user] = useAuthState(auth);
+
+  var userStatusDatabaseRef = firebase.database().ref('/users/' + user.phoneNumber);
+
+  var isOfflineForDatabase = {
+      state: 'offline',
+      last_changed: firebase.database.ServerValue.TIMESTAMP,
+  };
+
+  var isOnlineForDatabase = {
+      state: 'online',
+      last_changed: firebase.database.ServerValue.TIMESTAMP,
+  };
+
+  var userStatusFirestoreRef = firebase.firestore().doc('/users/' + user.phoneNumber);
+
+  var isOfflineForFirestore = {
+    state: 'offline',
+    last_changed: firebase.firestore.FieldValue.serverTimestamp(),
+  };
+
+  var isOnlineForFirestore = {
+      state: 'online',
+      last_changed: firebase.firestore.FieldValue.serverTimestamp(),
+  };
+
+  firebase.database().ref('.info/connected').on('value', function(snapshot) {
+    if (snapshot.val() == false) {
+        userStatusFirestoreRef.update(isOfflineForFirestore);
+        return;
+    };
+
+    userStatusDatabaseRef.onDisconnect().set(isOfflineForDatabase).then(function() {
+        userStatusDatabaseRef.set(isOnlineForDatabase);
+
+        // We'll also add Firestore set here for when we come online.
+        userStatusFirestoreRef.update(isOnlineForFirestore);
+    });
+  });
 
   const [activeChat, setActiveChat] =  useState(null);
 

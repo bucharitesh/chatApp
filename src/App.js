@@ -14,7 +14,6 @@ function App() {
     if(user) {
       db.collection('users').doc(user.phoneNumber).set({
         name: user.displayName,
-        lastSeen: firebase.firestore.FieldValue.serverTimestamp(),
         photoURL: user.photoURL,
         phone: user.phoneNumber
       },

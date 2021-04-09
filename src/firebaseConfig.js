@@ -15,6 +15,14 @@ const app = !firebase.apps.length
     : firebase.app();
 
 const db = app.firestore();
+
+app.firestore().settings({
+    cacheSizeBytes: firebase.firestore.CACHE_SIZE_UNLIMITED
+  });
+  
+app.firestore().enablePersistence()
+  
+
 const auth = app.auth();
 
 export { db, auth };

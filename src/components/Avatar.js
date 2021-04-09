@@ -1,12 +1,11 @@
 import styled from 'styled-components';
  
-function Avatar({onClick, image, isOnline, marginRight}) {
+function Avatar({onClick, image}) {
   return (
     <AvatarContainer onClick={onClick}>
         <div className="avatar-img">
           <img src={image} alt="#" />
         </div>
-        <span className={`isOnline ${isOnline}`}></span>
     </AvatarContainer>
   )
 }

@@ -59,9 +59,6 @@ function ChatWindow({data, user, setActiveChat}) {
                     Chatref.update({
                         lastMessage: text
                     })
-                    db.collection("users").doc(user.phoneNumber).update({
-                        lastSeen: firebase.firestore.Timestamp.now()
-                    })
                 });
             setText('');
         }
@@ -113,9 +110,6 @@ function ChatWindow({data, user, setActiveChat}) {
                         Chatref.update({
                             lastMessage: 'audio'
                         })
-                        db.collection("users").doc(user.phoneNumber).update({
-                            lastSeen: firebase.firestore.Timestamp.now()
-                        })
                     })
             });
         })
@@ -138,8 +132,11 @@ function ChatWindow({data, user, setActiveChat}) {
         });
 
         console.log("deleted successfully")
-        setActiveChat(null);
-    }
+        if(user.phoneNumber){
+            setActiveChat(null)
+        }
+        else window.location.reload();
+    } 
 
     const sendImage = (e) => {
         e.preventDefault();
@@ -163,10 +160,7 @@ function ChatWindow({data, user, setActiveChat}) {
                 }).then(() => {
                     Chatref.update({
                         lastMessage: 'image'
-                    })
-                    db.collection("users").doc(user.phoneNumber).update({
-                        lastSeen: firebase.firestore.Timestamp.now()
-                    })  
+                    }) 
                 });   
             })
             .catch(console.error);
@@ -190,15 +184,14 @@ function ChatWindow({data, user, setActiveChat}) {
                     />
                     <UserStatus>
                         <h4>{userSnapshot?.data().name}</h4>
-                        <p>Last active : {' '}
-                        {
-                            userSnapshot?.data().lastSeen.toDate() ? (
-                                <TimeAgo datetime= {userSnapshot?.data().lastSeen.toDate()} live={false} />
-                            ) : "Unavailable"
+                        <p>
+                        { 
+                        userSnapshot?.data().state === "online" ? "online" : (
+                                <TimeAgo datetime= {userSnapshot?.data().last_changed} live={false} />
+                            )
                         }
                         </p>
                     </UserStatus>
-                    
                     </div>
                 </div>
 

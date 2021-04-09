@@ -5,7 +5,7 @@ import { auth, db } from '../../firebaseConfig';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import styled from 'styled-components';
 
-function ChatListItems({onClick, data, isOnline}) {
+function ChatListItems({onClick, data}) {
 
   const [user] = useAuthState(auth);
 
@@ -20,7 +20,6 @@ function ChatListItems({onClick, data, isOnline}) {
       {recipient ? (
         <Avatar
           image={recipient.photoURL}
-          isOnline={isOnline}
         />
       ) : ""}
     
