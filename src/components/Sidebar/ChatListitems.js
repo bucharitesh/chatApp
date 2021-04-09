@@ -37,10 +37,9 @@ function ChatListItems({onClick, data, isOnline}) {
 const ChatListItem = styled.div`
     display: flex;
     border-bottom: 1px solid #ebe7fb;
-    padding-bottom: 10px;
     margin-top: 10px;
     cursor: pointer;
-    padding: 10px 10px 10px 20px;
+    padding: 10px;
     transition: all 0.3s cubic-bezier(0.88, 0.19, 0.37, 1.11);
     transform: scale(0);  
     animation-name: showIn;
@@ -87,6 +86,10 @@ const ChatListItem = styled.div`
         font-weight: 400;
         font-size: 12px;
         display: block;
+        width: 110px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
         
     :hover,

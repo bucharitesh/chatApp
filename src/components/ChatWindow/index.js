@@ -255,7 +255,7 @@ function ChatWindow({data, user}) {
                                 onData={onData}
                                 visualSetting="frequencyBars"
                                 strokeColor="#4462ff"
-                                backgroundColor="#fff"
+                                backgroundColor="transparent"
                                 echoCancellation="true"
                                 channelCount="2"
                             /> 
@@ -405,7 +405,7 @@ const ChatFooter = styled.div`
 const SoundWave = styled(ReactMic)`
     position: absolute;
     z-index: 999;
-    width: 70px;
+    width: 30px;
     height: 20px;
     right: 50px;
     bottom: 10px;

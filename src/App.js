@@ -23,7 +23,7 @@ function App() {
     } 
   }, [user])
 
-  if(loading) return <Loading/>;
+  if(loading) return <Loading/>; 
 
   if (!user) return <Login/>;
 
