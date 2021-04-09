@@ -7,9 +7,9 @@ import ChatWindow from '../components/ChatWindow/';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '../firebaseConfig';
 import { useState } from 'react';
+import { Helmet } from "react-helmet";
 
 export default function Home() {
-
   const [user] = useAuthState(auth);
 
   const [activeChat, setActiveChat] =  useState(null);
@@ -26,10 +26,10 @@ export default function Home() {
 
   return (
     <div className="__main">
-      {/* <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head> */}
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>ChatApp React</title>
+      </Helmet>
 
       <Nav user={user}/>
       

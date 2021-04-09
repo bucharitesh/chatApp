@@ -1,6 +1,5 @@
 import TimeAgo from 'timeago-react';
 import './ChatItem.css';
-import AudioPlayer from '../AudioPlayer/'
 
 function ChatItem({user,data}) {
 

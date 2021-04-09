@@ -4,8 +4,9 @@ import styled from 'styled-components';
 import Avatar from '../Avatar';
 import TimeAgo from 'timeago-react';
 import getRecipient from '../../utils/getRecipient';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import ChatItem from './ChatItem';
+import { Helmet } from "react-helmet";
 
 import firebase from 'firebase/app';
 import { FiSend, FiPlus, FiMic, FiSmile} from "react-icons/fi";
@@ -174,11 +175,12 @@ function ChatWindow({data, user, setActiveChat}) {
 
     return (
             <Container>
-             {/* <Head>
-                <title>Chat with {userSnapshot?.data().name}</title>
-            </Head> */}
+            <Helmet>
+                <title>Chat with {userSnapshot?.data().name ? userSnapshot?.data().name : ""}</title>
+            </Helmet>
 
             {/* Chat Header */}
+            
             <ChatHeader>
                 <div className="blocks">
                     <div className="current-chatting-user">
