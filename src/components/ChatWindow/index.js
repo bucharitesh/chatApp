@@ -8,11 +8,12 @@ import { useState, useRef, useEffect } from 'react';
 import ChatItem from './ChatItem';
 
 import firebase from 'firebase/app';
-import { FiSend, FiPlus, FiMic, FiSettings, FiSmile} from "react-icons/fi";
+import { FiSend, FiPlus, FiMic, FiSmile} from "react-icons/fi";
+import { AiOutlineDelete } from "react-icons/ai";
 
 import { ReactMic } from 'react-mic';
 
-function ChatWindow({data, user}) {
+function ChatWindow({data, user, setActiveChat}) {
 
     const Chatref = db.collection("chats").doc(data);
     const [chatSnapshot] = useCollection(Chatref);
@@ -136,7 +137,7 @@ function ChatWindow({data, user}) {
         });
 
         console.log("deleted successfully")
-        window.location.reload()
+        setActiveChat(null);
     }
 
     const sendImage = (e) => {
@@ -202,7 +203,7 @@ function ChatWindow({data, user}) {
                 <div className="blocks">
                     <Settings>
                     <button className="btn-nobg" onClick={(e) => deleteChat(e)}>
-                        <FiSettings size="20px" />
+                        <AiOutlineDelete size="20px" />
                     </button>
                     </Settings>
                 </div>
