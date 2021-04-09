@@ -76,6 +76,10 @@ const ChatListItem = styled.div`
         color: #000;
         font-weight: 600;
         font-size: 14px;
+        width: 110px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 
     .userMeta span {
