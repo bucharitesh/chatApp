@@ -26,13 +26,13 @@ a {
   overflow-x: hidden;
 }
 
-@media screen and (max-width: 600px) {
+/* @media screen and (max-width: 600px) {
   #root {
     display: none;
   }
-}
+} */
 
-#browserCompatible {
+/* #browserCompatible {
   display: flex;
   flex-direction: column;
   text-align: center; 
@@ -54,7 +54,7 @@ a {
   #browserCompatible {
     display: none;
   }
-}
+} */
 
 .__main {
   max-width: 90%;

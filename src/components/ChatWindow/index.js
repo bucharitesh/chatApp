@@ -28,7 +28,7 @@ function ChatWindow({data, user}) {
     const body = useRef();
 
     const endOfMessageRef = useRef(null);
-    const ScrolltoBottom = () => {
+    const scrollToBottom = () => {
         endOfMessageRef.current.scrollIntoView({
             behavior: "smooth",
             block: "start"
@@ -53,10 +53,17 @@ function ChatWindow({data, user}) {
                          messageType: "text",
                          messageTime: firebase.firestore.Timestamp.now()
                     })
+                }).then(() => {
+                    Chatref.update({
+                        lastMessage: text
+                    })
+                    db.collection("users").doc(user.phoneNumber).update({
+                        lastSeen: firebase.firestore.Timestamp.now()
+                    })
                 });
             setText('');
         }
-        ScrolltoBottom();
+        scrollToBottom();
     }
 
     const [record, setRecord] = useState(false);
@@ -100,11 +107,18 @@ function ChatWindow({data, user}) {
                                  audioURL: downloadURL,
                                  messageTime: firebase.firestore.Timestamp.now()
                             })
-                    });   
+                    }).then(() => {
+                        Chatref.update({
+                            lastMessage: 'audio'
+                        })
+                        db.collection("users").doc(user.phoneNumber).update({
+                            lastSeen: firebase.firestore.Timestamp.now()
+                        })
+                    })
             });
         })
     })
-    ScrolltoBottom(); 
+    scrollToBottom(); 
 }
 
     const deleteChat = (e) => {
@@ -144,10 +158,17 @@ function ChatWindow({data, user}) {
                              imageURL: url,
                              messageTime: firebase.firestore.Timestamp.now()
                         })
+                }).then(() => {
+                    Chatref.update({
+                        lastMessage: 'image'
+                    })
+                    db.collection("users").doc(user.phoneNumber).update({
+                        lastSeen: firebase.firestore.Timestamp.now()
+                    })  
                 });   
             })
             .catch(console.error);
-        ScrolltoBottom();
+        scrollToBottom();
     }
 
     return (

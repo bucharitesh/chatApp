@@ -2,11 +2,11 @@ import styled from 'styled-components';
 
 import { ReactComponent as Logo } from "../../assets/Logo.svg"
 
-function chatInro() {
+function chatIntro() {
     return (
         <Container>
             <Logo height="150px" width="150px"/>
-            <HeaderText>Welcome to Chai Pe Charcha</HeaderText>
+            <HeaderText>Welcome to ChatApp</HeaderText>
             <SubText>We Believe in Security and Reliability</SubText>
             <Footer>
                 <div className="footerText">
@@ -67,4 +67,4 @@ const Footer = styled.div`
     }
 `;
 
-export default chatInro
+export default chatIntro

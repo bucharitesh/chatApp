@@ -116,19 +116,11 @@ const ChatListItem = styled.div`
 
     .userMeta p {
         margin: 0;
+        margin-left: 15px;
         padding: 0;
         color: #000;
         font-weight: 600;
         font-size: 14px;
-    }
-
-    .userMeta span {
-        margin: 0;
-        padding: 0;
-        color: #ceccd3;
-        font-weight: 400;
-        font-size: 12px;
-        display: block;
     }
         
     :hover,

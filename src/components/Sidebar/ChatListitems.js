@@ -5,30 +5,30 @@ import { auth, db } from '../../firebaseConfig';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import styled from 'styled-components';
 
-function ChatListItems({onClick, active, id, users, isOnline}) {
+function ChatListItems({onClick, data, isOnline}) {
 
   const [user] = useAuthState(auth);
 
-  const [reciptentSnapshot] = useCollection(
-    db.collection("users").where("phone", "==", getRecipient(users, user))
+  const [recipientSnapshot] = useCollection(
+    db.collection("users").where("phone", "==", getRecipient(data.users, user))
   )
 
-  const reciptent = reciptentSnapshot?.docs?.[0]?.data();
+  const recipient = recipientSnapshot?.docs?.[0]?.data();
 
   return ( 
       <ChatListItem onClick={onClick}>
-      {reciptent ? (
+      {recipient ? (
         <Avatar
-          image={reciptent.photoURL}
+          image={recipient.photoURL}
           isOnline={isOnline}
         />
       ) : ""}
     
       <div className="userMeta">
-        {reciptent ? (
-          <p>{reciptent.name}</p>
+        {recipient ? (
+          <p>{recipient.name}</p>
         ) : ""}  
-        {/* <span className="activeTime">{data.lastSeen}</span> */}
+        <span>{recipient ? data.lastMessage : ""}</span>
       </div>
     </ChatListItem>
   )
@@ -82,7 +82,8 @@ const ChatListItem = styled.div`
     .userMeta span {
         margin: 0;
         padding: 0;
-        color: #ceccd3;
+        margin-left: 10px;
+        color: #3d3d3f;
         font-weight: 400;
         font-size: 12px;
         display: block;

@@ -62,7 +62,7 @@ function Sidebar({user, setActiveChat}) {
             chatsSnapshot?.docs.map((chat) => (
                 <ChatListItems
                     onClick={() => setActiveChat(chat.id)}
-                    users={chat.data().users}
+                    data={chat.data()}
                     key={chat.id}
                     id={chat.id}
                 />
