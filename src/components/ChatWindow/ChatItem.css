@@ -71,9 +71,13 @@
   }
 
   .chatItemTime {
-    right: 7px;
+    right: 6px;
     bottom: 4px;
     display: flex;
+
+
+
+    
     justify-content: space-between;
     position: absolute;
   }

@@ -24,6 +24,9 @@ function ChatWindow({data, user, setActiveChat}) {
     const UserRef = db.collection("users").doc(reciptent);
     const [userSnapshot] = useCollection(UserRef);
 
+    const StatusRef = db.collection("status").doc(reciptent);
+    const [statusSnapshot] = useCollection(StatusRef);
+
     const Messagesref = db.collection("messages").doc(data);
     const [messagesSnapshot] = useCollection(Messagesref);
 
@@ -131,11 +134,9 @@ function ChatWindow({data, user, setActiveChat}) {
             console.error("Error removing document: ", error);
         });
 
-        console.log("deleted successfully")
-        if(user.phoneNumber){
-            setActiveChat(null)
-        }
-        else window.location.reload();
+        console.log("deleted successfully");
+        setActiveChat(null);
+        window.location.reload();
     } 
 
     const sendImage = (e) => {
@@ -186,8 +187,8 @@ function ChatWindow({data, user, setActiveChat}) {
                         <h4>{userSnapshot?.data().name}</h4>
                         <p>
                         { 
-                        userSnapshot?.data().state === "online" ? "online" : (
-                                <TimeAgo datetime= {userSnapshot?.data().last_changed} live={false} />
+                        statusSnapshot?.data().state === "online" ? "online" : (
+                                <TimeAgo datetime= {statusSnapshot?.data().last_changed} live={false} />
                             )
                         }
                         </p>

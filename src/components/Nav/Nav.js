@@ -1,24 +1,23 @@
-import styled from 'styled-components';
-import Avatar from '../Avatar';
-import firebase from 'firebase/app';
+import styled from "styled-components";
+import Avatar from "../Avatar";
+import firebase from "firebase/app";
 
-import { ReactComponent as Logo } from "../../assets/Logo.svg"
+import { ReactComponent as Logo } from "../../assets/Logo.svg";
 
-function Nav({user}) {
+function Nav({ user }) {
+  const Signout = () => {
+    // firebase.auth().signOut()
+  };
 
-  const Signout =() => {
-    firebase.auth().signOut()
-  }
-  
   return (
-    <Navbar>   
-        <Logo width="50px" height="50px"/>
-        <div className="nav__blocks"></div>
-        <div className="nav__blocks">
-          <Avatar image={user.photoURL} onClick={Signout}/>
-        </div>   
+    <Navbar>
+      <Logo width="50px" height="50px" />
+      <div className="nav__blocks"></div>
+      <div className="nav__blocks">
+        <Avatar image={user.photoURL} onClick={Signout} />
+      </div>
     </Navbar>
-  )
+  );
 }
 
 const Navbar = styled.div`
@@ -41,4 +40,4 @@ const Navbar = styled.div`
   }
 `;
 
-export default Nav
+export default Nav;
